@@ -31,6 +31,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Aloca memória para os objetos que estarão em cena
+    Cena_t *vetorCena = (Cena_t*)malloc(num_obj *sizeof(Cena_t));
+    if(vetorCena == NULL) {
+        perror("Erro ao alocar memoria para o vetor da cena.");
+        return 1;
+    }
+
     arquivo = fopen(nome_arquivo, "r");
     if(arquivo == NULL) {
         perror("Erro ao reabrir o arquivo.");
@@ -69,22 +76,28 @@ int main(int argc, char *argv[]) {
                 AttPos(obj_para_mover, novo_x, novo_y);
             }
 
-            printf("nova pos do obj %d: %lf %lf\n\n", id, obj_para_mover->x, obj_para_mover->y);
+            printf("pos nova do obj %d: %lf %lf\n\n", id, obj_para_mover->x, obj_para_mover->y);
         }
         else if(tipo_linha == 'C') {
             int tempo;
 
             sscanf(linha, " %*c %d", &tempo);
+            GeraCena(vetorObjs, num_obj, vetorCena, tempo);
 
-            printf("Gerando cena para o tempo %d\n\n", tempo);
-            QuickSort(vetorObjs, 0, num_obj, num_obj);
+            // printf("Gerando cena para o tempo %d\n\n", tempo);
+            // QuickSort(vetorObjs, 0, num_obj - 1, num_obj);
+
+            // for(int i=0; i<num_obj; i++) {
+            //     printf("Vetor de objs: obj %d, posY %lf\n", vetorObjs[i].id, vetorObjs[i].y);
+            // }
+            // printf("\n");
         }
     }
     
-    printf("\n");
-    for(int i=0; i<num_obj; i++) {
-        printf("Vetor de objs: obj %d, posY %lf\n", vetorObjs[i].id, vetorObjs[i].y);
-    }
+    // printf("\n");
+    // for(int i=0; i<num_obj; i++) {
+    //     printf("Vetor de objs: obj %d, posY %lf\n", vetorObjs[i].id, vetorObjs[i].y);
+    // }
 
     fclose(arquivo);
 
