@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
     int num_obj = NumObjs(arquivo, nome_arquivo);
 
-    printf("Arquivo contem %d objetos\n\n", num_obj);
+    // printf("Arquivo contem %d objetos\n\n", num_obj);
 
     if(num_obj == 0) {
         printf("Nenhum objeto encontrado.\n");
@@ -70,13 +70,13 @@ int main(int argc, char *argv[]) {
             sscanf(linha, " %*c %d %d %lf %lf", &tempo, &id, &novo_x, &novo_y);
 
             Objeto_t *obj_para_mover = EncontrarObj(vetorObjs, num_obj, id);
-            printf("pos antiga do obj %d: %lf %lf\n", id, obj_para_mover->x, obj_para_mover->y);
+            // printf("pos antiga do obj %d: %lf %lf\n", id, obj_para_mover->x, obj_para_mover->y);
 
             if(obj_para_mover != NULL) {
                 AttPos(obj_para_mover, novo_x, novo_y);
             }
 
-            printf("pos nova do obj %d: %lf %lf\n\n", id, obj_para_mover->x, obj_para_mover->y);
+            // printf("pos nova do obj %d: %lf %lf\n\n", id, obj_para_mover->x, obj_para_mover->y);
         }
         else if(tipo_linha == 'C') {
             int tempo;
