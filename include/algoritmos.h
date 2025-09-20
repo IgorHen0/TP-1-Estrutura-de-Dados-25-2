@@ -3,8 +3,10 @@
 
 #include "objeto.h"
 
-void QuickSort(Objeto_ptr *obj_ptr, int low, int high);
-int Particao(Objeto_ptr *obj_ptr, int low, int high);
-void Troca(Objeto_ptr *obj_ptr, int i, int j);
+typedef struct Objeto Objeto_t;
+
+void QuickSort(Objeto_t obj, int low, int high);
+int Particao(Objeto_t obj, int low, int high);
+void Troca(Objeto_t obj, int i, int j);
 
 #endif // ALGORITMOS_H

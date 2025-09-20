@@ -3,14 +3,17 @@
 
 #include "algoritmos.h"
 
+// Struct para Objeto
 typedef struct Objeto {
     int id;
-    float x, y;
+    double x, y;
     int largura;
-} Objeto_t, *Objeto_ptr;
 
-Objeto_ptr Cria();
-void Destroi(Objeto_ptr o);
-void AttPos(Objeto_ptr o, float x, float y);
+    int inicioX, fimX;
+} Objeto_t;
+
+Objeto_t CriaObj(int id, double x, double y, int largura);
+void DestroiObj(Objeto_t o);
+void AttPos(Objeto_t *o, double novo_x, double novo_y);
 
 #endif // OBJETO_H

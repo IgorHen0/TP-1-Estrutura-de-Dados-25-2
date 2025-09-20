@@ -9,7 +9,7 @@ typedef struct Cena {
     int inicio, fim;
 } Cena_t, *Cena_ptr;
 
-void AddObjeto(Objeto_ptr obj_ptr, Cena_ptr cena, int num_cena);
-void GeraCena(Objeto_ptr obj_ptr, int num_obj, Cena_ptr cena, int num_cena);
+void AddObjeto(Objeto_t obj, Cena_ptr cena, int num_cena);
+void GeraCena(Objeto_t obj, int num_obj, Cena_ptr cena, int num_cena);
 
 #endif // CENA_H
