@@ -92,11 +92,11 @@ int ParticaoCena(Cena_t *c, int inicio, int fim, int num_cena) {
     for(int j = inicio; j < fim; j++) {
         if(c[j].id_obj <= pivot) {
             i++;
-            Troca(c, i, j);
+            TrocaCena(c, i, j);
         }
     }
 
-    Troca(c, i + 1, fim);
+    TrocaCena(c, i + 1, fim);
     return i + 1;
 }
 
@@ -107,7 +107,7 @@ void QuickSortCena(Cena_t *c, int inicio, int fim, int num_cena) {
     }
 
     if(inicio < fim) {
-        int pi = Particao(c, inicio, fim, num_cena);
+        int pi = ParticaoCena(c, inicio, fim, num_cena);
 
         if(pi == -1) {
             fprintf(stderr, "Erro: particao falhou.\n");
@@ -115,7 +115,7 @@ void QuickSortCena(Cena_t *c, int inicio, int fim, int num_cena) {
         }
 
         // Ordena os elementos
-        QuickSort(c, inicio, pi - 1, num_cena);
-        QuickSort(c, pi + 1, fim, num_cena);
+        QuickSortCena(c, inicio, pi - 1, num_cena);
+        QuickSortCena(c, pi + 1, fim, num_cena);
     }
 }
