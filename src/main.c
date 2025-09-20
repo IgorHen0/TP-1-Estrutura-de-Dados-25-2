@@ -4,16 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Função para encontrar o objeto que irá se movimentar
-Objeto_t* EncontrarObj(Objeto_t* vetor, int num_objetos, int id) {
-    for (int i = 0; i < num_objetos; i++) {
-        if (vetor[i].id == id) {
-            return &vetor[i];
-        }
-    }
-    return NULL;
-}
-
 int main(int argc, char *argv[]) {
 
     if(argc < 2) {
@@ -22,26 +12,12 @@ int main(int argc, char *argv[]) {
     }
 
     char *nome_arquivo = argv[1];
-    FILE *arquivo;
+    FILE *arquivo = NULL;
     char linha[256];
 
-    int num_obj = 0;
+    int num_obj = NumObjs(arquivo, nome_arquivo);
 
-    arquivo = fopen(nome_arquivo, "r");
-    if(arquivo == NULL) {
-        perror("Erro ao abrir arquivo.");
-        return 1;
-    }
-
-    // Obtem quantos objetos tem na cena
-    while(fgets(linha, sizeof(linha), arquivo)) {
-        if(linha[0] == 'O') {
-            num_obj++;
-        }
-    }
-    fclose(arquivo);
-
-    printf("Arquivo contem %d objetos\n", num_obj);
+    printf("Arquivo contem %d objetos\n\n", num_obj);
 
     if(num_obj == 0) {
         printf("Nenhum objeto encontrado.\n");
@@ -66,7 +42,7 @@ int main(int argc, char *argv[]) {
     while (fgets(linha, sizeof(linha), arquivo)) {
         char tipo_linha;
 
-        sscanf(linha, " %c", &tipo_linha);
+        sscanf(linha, "%c", &tipo_linha);
 
         if(tipo_linha == 'O') {
             int id;
@@ -87,17 +63,27 @@ int main(int argc, char *argv[]) {
             sscanf(linha, " %*c %d %d %lf %lf", &tempo, &id, &novo_x, &novo_y);
 
             Objeto_t *obj_para_mover = EncontrarObj(vetorObjs, num_obj, id);
+            printf("pos antiga do obj %d: %lf %lf\n", id, obj_para_mover->x, obj_para_mover->y);
+
             if(obj_para_mover != NULL) {
                 AttPos(obj_para_mover, novo_x, novo_y);
             }
+
+            printf("nova pos do obj %d: %lf %lf\n\n", id, obj_para_mover->x, obj_para_mover->y);
         }
         else if(tipo_linha == 'C') {
             int tempo;
 
             sscanf(linha, " %*c %d", &tempo);
 
-            printf("Gerando cena para o tempo %d\n", tempo);
+            printf("Gerando cena para o tempo %d\n\n", tempo);
+            QuickSort(vetorObjs, 0, num_obj, num_obj);
         }
+    }
+    
+    printf("\n");
+    for(int i=0; i<num_obj; i++) {
+        printf("Vetor de objs: obj %d, posY %lf\n", vetorObjs[i].id, vetorObjs[i].y);
     }
 
     fclose(arquivo);
