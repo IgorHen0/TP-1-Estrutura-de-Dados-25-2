@@ -66,8 +66,8 @@ void AddObjeto(Objeto_t obj, Cena_t *cena, int *num_segmentos_na_cena, int tempo
         if (fim_visivel > inicio_visivel) {
             cena[*num_segmentos_na_cena].num_cena = tempo_cena;
             cena[*num_segmentos_na_cena].id_obj = obj.id;
-            cena[*num_segmentos_na_cena].inicio = (int)inicio_visivel;
-            cena[*num_segmentos_na_cena].fim = (int)fim_visivel;
+            cena[*num_segmentos_na_cena].inicio = inicio_visivel;
+            cena[*num_segmentos_na_cena].fim = fim_visivel;
             (*num_segmentos_na_cena)++;
         }
         x_atual = fim_visivel;
@@ -90,7 +90,7 @@ void GeraCena(Objeto_t *vetor_obj, int num_obj, Cena_t *vetor_cena, int tempo_ce
     
     // Imprime a saída da cena
     for (int i = 0; i < num_segmentos_na_cena; i++) {
-        printf("S %d %d %d %d\n",
+        printf("S %d %d %.2f %.2f\n",
                vetor_cena[i].num_cena,
                vetor_cena[i].id_obj,
                vetor_cena[i].inicio,

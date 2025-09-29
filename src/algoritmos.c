@@ -86,7 +86,7 @@ int ParticaoCena(Cena_t *c, int inicio, int fim, int num_cena) {
         return -1;
     }
 
-    double pivot = c[fim].id_obj;
+    int pivot = c[fim].id_obj;
     int i = inicio - 1;
 
     for(int j = inicio; j < fim; j++) {

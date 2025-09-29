@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 // Inicializa os objetos
-Objeto_t CriaObj(int id, double x, double y, int largura) {
+Objeto_t CriaObj(int id, double x, double y, double largura) {
     Objeto_t o;
     o.id = id;
     o.x = x;

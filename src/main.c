@@ -32,9 +32,10 @@ int main(int argc, char *argv[]) {
     }
 
     // Aloca memória para os objetos que estarão em cena
-    Cena_t *vetorCena = (Cena_t*)malloc(num_obj *sizeof(Cena_t));
+    Cena_t *vetorCena = (Cena_t*)malloc(num_obj * 10 * sizeof(Cena_t));
     if(vetorCena == NULL) {
         perror("Erro ao alocar memoria para o vetor da cena.");
+        free(vetorObjs);
         return 1;
     }
 
@@ -54,9 +55,9 @@ int main(int argc, char *argv[]) {
         if(tipo_linha == 'O') {
             int id;
             double x, y;
-            int largura;
+            double largura;
 
-            sscanf(linha, " %*c %d %lf %lf %d", &id, &x, &y, &largura);
+            sscanf(linha, " %*c %d %lf %lf %lf", &id, &x, &y, &largura);
 
             if(indice_obj_atual < num_obj) {
                 vetorObjs[indice_obj_atual] = CriaObj(id, x, y, largura);
@@ -102,6 +103,7 @@ int main(int argc, char *argv[]) {
     fclose(arquivo);
 
     free(vetorObjs);
+    free(vetorCena);
 
     return 0;
     

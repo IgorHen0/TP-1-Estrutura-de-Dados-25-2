@@ -3,10 +3,12 @@
 
 #include "objeto.h"
 
+typedef struct Objeto Objeto_t;
+
 typedef struct Cena {
     int num_cena;
     int id_obj;
-    int inicio, fim;
+    double inicio, fim;
 } Cena_t;
 
 typedef struct Intervalo {
