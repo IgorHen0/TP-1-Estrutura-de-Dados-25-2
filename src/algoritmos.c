@@ -86,11 +86,11 @@ int ParticaoCena(Cena_t *c, int inicio, int fim, int num_cena) {
         return -1;
     }
 
-    int pivot = c[fim].id_obj;
+    Cena_t pivot = c[fim];
     int i = inicio - 1;
 
     for(int j = inicio; j < fim; j++) {
-        if(c[j].id_obj <= pivot) {
+        if (c[j].id_obj < pivot.id_obj || (c[j].id_obj == pivot.id_obj && c[j].inicio <= pivot.inicio)) {
             i++;
             TrocaCena(c, i, j);
         }
@@ -117,5 +117,33 @@ void QuickSortCena(Cena_t *c, int inicio, int fim, int num_cena) {
         // Ordena os elementos
         QuickSortCena(c, inicio, pi - 1, num_cena);
         QuickSortCena(c, pi + 1, fim, num_cena);
+    }
+}
+
+void TrocaIntervalo(Intervalo_t *v, int i, int j) {
+    Intervalo_t temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+int ParticaoIntervalo(Intervalo_t *v, int inicio, int fim) {
+    double pivot = v[fim].inicio;
+    int i = inicio - 1;
+
+    for (int j = inicio; j < fim; j++) {
+        if (v[j].inicio <= pivot) {
+            i++;
+            TrocaIntervalo(v, i, j);
+        }
+    }
+    TrocaIntervalo(v, i + 1, fim);
+    return i + 1;
+}
+
+void QuickSortIntervalo(Intervalo_t *v, int inicio, int fim) {
+    if (inicio < fim) {
+        int pi = ParticaoIntervalo(v, inicio, fim);
+        QuickSortIntervalo(v, inicio, pi - 1);
+        QuickSortIntervalo(v, pi + 1, fim);
     }
 }

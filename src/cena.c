@@ -7,20 +7,12 @@
 static Intervalo_t intervalo_ocluso[1000];
 static int num_intervalo_ocluso = 0;
 
-int compararIntervalos(const void *a, const void *b) {
-    Intervalo_t *intA = (Intervalo_t *)a;
-    Intervalo_t *intB = (Intervalo_t *)b;
-    if (intA->inicio < intB->inicio) return -1;
-    if (intA->inicio > intB->inicio) return 1;
-    return 0;
-}
-
 void AdicionarIntervaloOclusao(double inicio, double fim) {
     intervalo_ocluso[num_intervalo_ocluso].inicio = inicio;
     intervalo_ocluso[num_intervalo_ocluso].fim = fim;
     num_intervalo_ocluso++;
 
-    qsort(intervalo_ocluso, num_intervalo_ocluso, sizeof(Intervalo_t), compararIntervalos);
+    QuickSortIntervalo(intervalo_ocluso, 0, num_intervalo_ocluso - 1);
 
     if (num_intervalo_ocluso <= 1) {
         return;
