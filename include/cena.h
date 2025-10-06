@@ -3,6 +3,8 @@
 
 #include "objeto.h"
 
+#define MAX_TAM 100
+
 typedef struct Objeto Objeto_t;
 
 typedef struct Cena {

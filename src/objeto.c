@@ -38,9 +38,3 @@ void AttPos(Objeto_t *o, double novo_x, double novo_y) {
     o->inicioX = novo_x - (o->largura/2.0f);
     o->fimX = novo_x + (o->largura/2.0f);
 }
-
-// void DestroiObj(Objeto_ptr o) {
-//     if (!o) return;
-    
-
-// }

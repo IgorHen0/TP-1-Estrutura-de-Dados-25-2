@@ -4,10 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static Intervalo_t intervalo_ocluso[1000];
+static Intervalo_t intervalo_ocluso[MAX_TAM];
 static int num_intervalo_ocluso = 0;
 
 void AdicionarIntervaloOclusao(double inicio, double fim) {
+    if (num_intervalo_ocluso >= MAX_TAM) {
+        return; // Impede o overflow do buffer
+    }
     intervalo_ocluso[num_intervalo_ocluso].inicio = inicio;
     intervalo_ocluso[num_intervalo_ocluso].fim = fim;
     num_intervalo_ocluso++;
@@ -56,11 +59,13 @@ void AddObjeto(Objeto_t obj, Cena_t *cena, int *num_segmentos_na_cena, int tempo
         }
 
         if (fim_visivel > inicio_visivel) {
-            cena[*num_segmentos_na_cena].num_cena = tempo_cena;
-            cena[*num_segmentos_na_cena].id_obj = obj.id;
-            cena[*num_segmentos_na_cena].inicio = inicio_visivel;
-            cena[*num_segmentos_na_cena].fim = fim_visivel;
-            (*num_segmentos_na_cena)++;
+            if (*num_segmentos_na_cena < MAX_TAM * 10) { // Garante que não exceda o limite do vetor de cena
+                cena[*num_segmentos_na_cena].num_cena = tempo_cena;
+                cena[*num_segmentos_na_cena].id_obj = obj.id;
+                cena[*num_segmentos_na_cena].inicio = inicio_visivel;
+                cena[*num_segmentos_na_cena].fim = fim_visivel;
+                (*num_segmentos_na_cena)++;
+            }
         }
         x_atual = fim_visivel;
     }

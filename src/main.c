@@ -7,12 +7,11 @@
 
 int main() {
     char linha[256];
-    Objeto_t *vetorObjs = NULL;
-    Cena_t *vetorCena = NULL;
+    Objeto_t vetorObjs[MAX_TAM];
+    Cena_t vetorCena[MAX_TAM * 10];
     int num_obj = 0;
-    int capacidade_objs = 0;
 
-    // Processa uma linha por vez da entrada padrão (teclado)
+    // Processa uma linha por vez da entrada padrão
     while (fgets(linha, sizeof(linha), stdin)) {
         // Ignora linhas em branco
         if (linha[0] == '\n' || linha[0] == '\r') {
@@ -22,21 +21,14 @@ int main() {
         char tipo_linha = linha[0];
 
         if (tipo_linha == 'O') {
-            // Aumenta a capacidade do vetor de objetos se necessário
-            if (num_obj >= capacidade_objs) {
-                capacidade_objs = (capacidade_objs == 0) ? 10 : capacidade_objs * 2;
-                vetorObjs = (Objeto_t*)realloc(vetorObjs, capacidade_objs * sizeof(Objeto_t));
-                if (vetorObjs == NULL) {
-                    perror("Erro ao realocar memoria para o vetor de objetos.");
-                    return 1;
-                }
+            // Verifica se ainda há espaço no vetor de objetos
+            if (num_obj < MAX_TAM) {
+                int id;
+                double x, y, largura;
+                sscanf(linha, " %*c %d %lf %lf %lf", &id, &x, &y, &largura);
+                vetorObjs[num_obj] = CriaObj(id, x, y, largura);
+                num_obj++;
             }
-            
-            int id;
-            double x, y, largura;
-            sscanf(linha, " %*c %d %lf %lf %lf", &id, &x, &y, &largura);
-            vetorObjs[num_obj] = CriaObj(id, x, y, largura);
-            num_obj++;
 
         } else if (tipo_linha == 'M') {
             if (num_obj == 0) continue; // Não faz nada se não houver objetos
@@ -52,14 +44,6 @@ int main() {
         } else if (tipo_linha == 'C') {
             if (num_obj == 0) continue; // Não gera cena se não houver objetos
             
-            // Aloca/realoca o vetor da cena. É seguro fazer isso aqui.
-            vetorCena = (Cena_t*)realloc(vetorCena, num_obj * 10 * sizeof(Cena_t));
-             if (vetorCena == NULL) {
-                perror("Erro ao alocar memoria para o vetor da cena.");
-                free(vetorObjs);
-                return 1;
-            }
-
             int tempo;
             sscanf(linha, " %*c %d", &tempo);
             
@@ -67,10 +51,6 @@ int main() {
             GeraCena(vetorObjs, num_obj, vetorCena, tempo);
         }
     }
-
-    // Libera a memória alocada ao final do programa
-    free(vetorObjs);
-    free(vetorCena);
 
     return 0;
 }
