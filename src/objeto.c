@@ -26,27 +26,6 @@ Objeto_t* EncontrarObj(Objeto_t* vetor, int num_objetos, int id) {
     return NULL;
 }
 
-int NumObjs(FILE *arquivo, char *nome_arquivo) {
-    char linha[256];
-    int num_obj = 0;
-
-    arquivo = fopen(nome_arquivo, "r");
-    if(arquivo == NULL) {
-        perror("Erro ao abrir arquivo.");
-        return 1;
-    }
-
-    // Obtem quantos objetos tem na cena
-    while(fgets(linha, sizeof(linha), arquivo)) {
-        if(linha[0] == 'O') {
-            num_obj++;
-        }
-    }
-    fclose(arquivo);
-
-    return num_obj;
-}
-
 // Atualiza a posição dos objetos
 void AttPos(Objeto_t *o, double novo_x, double novo_y) {
     if(o == NULL) {
