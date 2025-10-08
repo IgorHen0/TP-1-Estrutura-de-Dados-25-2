@@ -4,12 +4,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+// #define ORDENAR_SEMPRE
+// #define ORDENAR_COM_LIMIAR
+#define ORDENAR_NA_CENA
+
+#ifdef ORDENAR_COM_LIMIAR
+    const int LIMIAR_DESORGANIZACAO = 50;
+#endif
 
 int main() {
+
+    clock_t start = clock();
+
     char linha[256];
     Objeto_t vetorObjs[MAX_TAM];
     Cena_t vetorCena[MAX_TAM * 10];
     int num_obj = 0;
+    int contador_desorganizacao = 0;
 
     // Processa uma linha por vez da entrada padrão
     while (fgets(linha, sizeof(linha), stdin)) {
@@ -36,21 +49,62 @@ int main() {
             int tempo, id;
             double novo_x, novo_y;
             sscanf(linha, " %*c %d %d %lf %lf", &tempo, &id, &novo_x, &novo_y);
-            Objeto_t *obj_para_mover = EncontrarObj(vetorObjs, num_obj, id);
-            if (obj_para_mover != NULL) {
-                AttPos(obj_para_mover, novo_x, novo_y);
+
+            int indice_obj_movido = -1;
+            for(int i=0; i<num_obj; i++) {
+                if(vetorObjs[i].id == id) {
+                    indice_obj_movido = i;
+                    break;
+                }
             }
+
+            if (indice_obj_movido != -1) {
+                // Salva a posição y antiga para calcular a métrica de desorganização
+                double y_antigo = vetorObjs[indice_obj_movido].y;
+                
+                AttPos(&vetorObjs[indice_obj_movido], novo_x, novo_y);
+
+                // Cálculo da Métrica de Desorganização
+                if (indice_obj_movido > 0 && 
+                    vetorObjs[indice_obj_movido].y < vetorObjs[indice_obj_movido - 1].y && 
+                    y_antigo >= vetorObjs[indice_obj_movido - 1].y) {
+                    contador_desorganizacao++;
+                }
+
+                if (indice_obj_movido < num_obj - 1 && 
+                    vetorObjs[indice_obj_movido].y > vetorObjs[indice_obj_movido + 1].y && 
+                    y_antigo <= vetorObjs[indice_obj_movido + 1].y) {
+                    contador_desorganizacao++;
+                }
+            }
+
+            #ifdef ORDENAR_SEMPRE
+                QuickSort(vetorObjs, 0, num_obj-1, num_obj);
+            #elif defined(ORDENAR_COM_LIMIAR)
+                if(contador_desorganizacao >= LIMIAR_DESORGANIZACAO) {
+                    QuickSort(vetorObjs, 0, num_obj-1, num_obj);
+                    contador_desorganizacao = 0;
+                }
+            #endif
 
         } else if (tipo_linha == 'C') {
             if (num_obj == 0) continue; // Não gera cena se não houver objetos
             
             int tempo;
             sscanf(linha, " %*c %d", &tempo);
+
+            #ifdef ORDENAR_NA_CENA
+                QuickSort(vetorObjs, 0, num_obj-1, num_obj);
+            #endif
             
             // Gera e imprime a cena imediatamente
             GeraCena(vetorObjs, num_obj, vetorCena, tempo);
         }
     }
+
+    clock_t end = clock();
+    double tempo_cpu = (double) (end - start) / CLOCKS_PER_SEC;
+    fprintf(stderr, "Tempo de execucao: %f segundos.", tempo_cpu);
 
     return 0;
 }

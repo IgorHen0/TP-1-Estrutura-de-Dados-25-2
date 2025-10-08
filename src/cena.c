@@ -72,7 +72,6 @@ void AddObjeto(Objeto_t obj, Cena_t *cena, int *num_segmentos_na_cena, int tempo
 }
 
 void GeraCena(Objeto_t *vetor_obj, int num_obj, Cena_t *vetor_cena, int tempo_cena) {
-    QuickSort(vetor_obj, 0, num_obj - 1, num_obj);
 
     num_intervalo_ocluso = 0;
     int num_segmentos_na_cena = 0;
