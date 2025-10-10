@@ -23,9 +23,11 @@ int main() {
     Cena_t vetorCena[MAX_TAM * 10];
     int num_obj = 0;
     int contador_desorganizacao = 0;
+    int numero_linha = 0;
 
     // Processa uma linha por vez da entrada padrão
     while (fgets(linha, sizeof(linha), stdin)) {
+        numero_linha++;
         // Ignora linhas em branco
         if (linha[0] == '\n' || linha[0] == '\r') {
             continue;
@@ -38,7 +40,11 @@ int main() {
             if (num_obj < MAX_TAM) {
                 int id;
                 double x, y, largura;
-                sscanf(linha, " %*c %d %lf %lf %lf", &id, &x, &y, &largura);
+                int itens_lidos = sscanf(linha, " %*c %d %lf %lf %lf", &id, &x, &y, &largura);
+                if (itens_lidos != 4) {
+                    fprintf(stderr, "Aviso: Linha %d malformada. Esperado 'O id x y largura'.\n", numero_linha);
+                    continue;
+                }
                 vetorObjs[num_obj] = CriaObj(id, x, y, largura);
                 num_obj++;
             }
@@ -48,7 +54,11 @@ int main() {
 
             int tempo, id;
             double novo_x, novo_y;
-            sscanf(linha, " %*c %d %d %lf %lf", &tempo, &id, &novo_x, &novo_y);
+            int itens_lidos = sscanf(linha, " %*c %d %d %lf %lf", &tempo, &id, &novo_x, &novo_y);
+            if (itens_lidos != 4) {
+                fprintf(stderr, "Aviso: Linha %d malformada. Esperado 'M tempo id novo_x novo_y'.\n", numero_linha);
+                continue;
+            }
 
             int indice_obj_movido = -1;
             for(int i=0; i<num_obj; i++) {
@@ -76,6 +86,8 @@ int main() {
                     y_antigo <= vetorObjs[indice_obj_movido + 1].y) {
                     contador_desorganizacao++;
                 }
+            } else {
+                 fprintf(stderr, "Aviso: Objeto com id %d nao encontrado para movimentacao na linha %d.\n", id, numero_linha);
             }
 
             #ifdef ORDENAR_SEMPRE
@@ -91,7 +103,11 @@ int main() {
             if (num_obj == 0) continue; // Não gera cena se não houver objetos
             
             int tempo;
-            sscanf(linha, " %*c %d", &tempo);
+            int itens_lidos = sscanf(linha, " %*c %d", &tempo);
+            if (itens_lidos != 1) {
+                fprintf(stderr, "Aviso: Linha %d malformada. Esperado 'C tempo'.\n", numero_linha);
+                continue;
+            }
 
             #ifdef ORDENAR_NA_CENA
                 QuickSort(vetorObjs, 0, num_obj-1, num_obj);
