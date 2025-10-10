@@ -1,0 +1,64 @@
+EXPERIMENTO 1 - variando a largura dos objetos
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 10, 20
+
+num obj: 25
+largura: entre 1 e 5
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 10, 20
+
+num obj: 25
+largura: entre 1 e 20
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 10, 20
+------------------------------------------------------------
+EXPERIMENTO 2 - variando a velocidade
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 5
+cenas geradas nos tempos: 10, 20
+
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 10, 20
+
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 20
+cenas geradas nos tempos: 10, 20
+------------------------------------------------------------
+EXPERIMENTO 3 - variando a qtd de objetos (velocidade será ajustada para permanecer proporcional a qtd de objetos)
+num obj: 5
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 1
+cenas geradas nos tempos: 10, 20
+
+num obj: 10
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 2
+cenas geradas nos tempos: 10, 20
+
+num obj: 20
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 4
+cenas geradas nos tempos: 10, 20
+------------------------------------------------------------
+EXPERIMENTO 4 - variando a quantidade de cenas geradas
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 5, 10, 20
+
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 5, 10, 15, 20
+
+num obj: 25
+largura: entre 1 e 10
+velocidade (qtd de objetos que se movem por tempo): 10
+cenas geradas nos tempos: 5, 10, 15, 20, 25
+------------------------------------------------------------
